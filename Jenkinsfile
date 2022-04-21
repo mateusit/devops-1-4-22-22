@@ -7,9 +7,9 @@ node {
     def tagVersion
     def retrieveArtifact
 
-    stage('Prepare') {
-      mvnHome = tool 'maven'
-    }
+    //stage('Prepare') {
+    //  mvnHome = tool 'maven'
+    //}
 
     stage('Checkout') {
        checkout scm
