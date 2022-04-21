@@ -38,8 +38,8 @@ node {
 
     stage('Sonar') {
        if (isUnix()) {
-        //  sh "'${mvnHome}/bin/mvn' sonar:sonar"
 		  sh "'${mvnHome}/bin/mvn' sonar:sonar -Dsonar.projectKey=coe-hygieia -Dsonar.host.url=http://mep-hygieia-docker-2.eastus2.cloudapp.azure.com:9000  -Dsonar.login=e19a79d7b069f1ac31c98eee817aced69a97a342"
+		  hygieiaSonarPublishStep ceQueryIntervalInSeconds: '10', ceQueryMaxAttempts: '30'
        } else {
           bat(/"${mvnHome}\bin\mvn" sonar:sonar/)
        }
