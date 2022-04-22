@@ -27,7 +27,7 @@ node {
        junit '**/target/surefire-reports/TEST-*.xml'
 	   
        archive 'target/*.war'
-
+		sh "'${mvnHome}/bin/mvn' checkstyle:checkstyle"
 				//hygieiaBuildPublishStep buildStatus: 'Success'
 				//hygieiaArtifactPublishStep artifactDirectory: './target', artifactGroup: 'test', artifactName: '*.jar', artifactVersion: ''
                 //hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: './target', artifactGroup: 'test', artifactName: '*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'Dev'
