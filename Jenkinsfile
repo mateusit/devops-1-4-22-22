@@ -17,25 +17,17 @@ node {
 
     stage('Build') {
        if (isUnix()) {
-          sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean install package"
+          sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
        } else {
-          bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean install package/)
+          bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean package/)
        }
     }
 
     stage('Unit Test') {
        junit '**/target/surefire-reports/TEST-*.xml'
 	   
-       archive 'target/*.jar'
-	            hygieiaBuildPublishStep buildStatus: 'Success'
-				hygieiaTestPublishStep buildStatus: 'Success', testApplicationName: 'coe-devops1', testEnvironmentName: 'DEV', testFileNamePattern: 'TEST-*.xml', testResultsDirectory: '/target/surefire-reports/', testType: 'Unit'
-				hygieiaArtifactPublishStep artifactDirectory: './target', artifactGroup: 'org.springframework.boot', artifactName: '*.war', artifactVersion: ''
-				sh "echo '**** ABOUT TO PUSH TO SONAR ******'"
-				hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-.*-test.xml', pmdFilePattern: '**/*/PMD.xml'
-				hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: './target', artifactGroup: 'org.springframework.boot', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'DEV'
-				hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: './target', artifactGroup: 'org.springframework.boot', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'TEST'
-				hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: './target', artifactGroup: 'org.springframework.boot', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'PROD'
-				hygieiaSonarPublishStep ceQueryIntervalInSeconds: '10', ceQueryMaxAttempts: '30'
+       archive 'target/*.war'
+
 				//hygieiaBuildPublishStep buildStatus: 'Success'
 				//hygieiaArtifactPublishStep artifactDirectory: './target', artifactGroup: 'test', artifactName: '*.jar', artifactVersion: ''
                 //hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: './target', artifactGroup: 'test', artifactName: '*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'Dev'
@@ -57,8 +49,15 @@ node {
     stage('Sonar') {
        if (isUnix()) {
 		  sh "'${mvnHome}/bin/mvn' sonar:sonar -Dsonar.projectKey=coe-hygieia -Dsonar.host.url=http://mep-hygieia-docker-2.eastus2.cloudapp.azure.com:9000  -Dsonar.login=e19a79d7b069f1ac31c98eee817aced69a97a342"
-		  hygieiaSonarPublishStep ceQueryIntervalInSeconds: '10', ceQueryMaxAttempts: '30'
-		  hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-.*-test.xml', pmdFilePattern: '**/*/PMD.xml'
+	            hygieiaBuildPublishStep buildStatus: 'Success'
+				hygieiaTestPublishStep buildStatus: 'Success', testApplicationName: 'coe-devops1', testEnvironmentName: 'DEV', testFileNamePattern: 'TEST-*.xml', testResultsDirectory: '/target/surefire-reports/', testType: 'Unit'
+				hygieiaArtifactPublishStep artifactDirectory: './target', artifactGroup: 'org.springframework.boot', artifactName: '*.war', artifactVersion: ''
+				sh "echo '**** ABOUT TO PUSH TO SONAR ******'"
+				hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-.*-test.xml', pmdFilePattern: '**/*/PMD.xml'
+				hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: './target', artifactGroup: 'org.springframework.boot', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'DEV'
+				hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: './target', artifactGroup: 'org.springframework.boot', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'TEST'
+				hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: './target', artifactGroup: 'org.springframework.boot', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'PROD'
+				hygieiaSonarPublishStep ceQueryIntervalInSeconds: '10', ceQueryMaxAttempts: '30'
        } else {
           bat(/"${mvnHome}\bin\mvn" sonar:sonar/)
        }
