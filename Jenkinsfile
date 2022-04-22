@@ -17,14 +17,15 @@ node {
 
     stage('Build') {
        if (isUnix()) {
-          sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
+          sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean install package"
        } else {
-          bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean package/)
+          bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean install package/)
        }
     }
 
     stage('Unit Test') {
        junit '**/target/surefire-reports/TEST-*.xml'
+	   
        archive 'target/*.jar'
 	                   hygieiaBuildPublishStep buildStatus: 'Success'
 //				hygieiaArtifactPublishStep artifactDirectory: './//target', artifactGroup: 'test', artifactName: '*.jar', artifactVersion: ''
