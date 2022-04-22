@@ -27,12 +27,13 @@ node {
        junit '**/target/surefire-reports/TEST-*.xml'
 	   
        archive 'target/*.jar'
-	                   hygieiaBuildPublishStep buildStatus: 'Success'
-//				hygieiaArtifactPublishStep artifactDirectory: './//target', artifactGroup: 'test', artifactName: '*.jar', artifactVersion: ''
-//                hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: './target', artifactGroup: 'test', artifactName: '*.jar', artifactVersion: '', buildStatus: 'Success', environmentName: 'Dev'
+	            hygieiaBuildPublishStep buildStatus: 'Success'
+				hygieiaArtifactPublishStep artifactDirectory: 'target', artifactGroup: 'test', artifactName: '*.jar', artifactVersion: ''
+                hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: 'target', artifactGroup: 'test', artifactName: '*.jar', artifactVersion: '', buildStatus: 'Success', environmentName: 'Dev'
 				hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: 'target', artifactGroup: 'com.example', artifactName: '*.jar', artifactVersion: '', buildStatus: 'Success', environmentName: 'DEV'   
 				hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: 'target', artifactGroup: 'com.example', artifactName: '*.jar', artifactVersion: '', buildStatus: 'Success', environmentName: 'QA'
 				hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: 'target', artifactGroup: 'com.example', artifactName: '*.jar', artifactVersion: '', buildStatus: 'Success', environmentName: 'PROD'    
+				sh "echo '**** ABOUT TO PUSH TO SONAR ******'"				
 				hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-.*-test.xml', pmdFilePattern: '**/*/PMD.xml'
     }
 
@@ -47,7 +48,7 @@ node {
     stage('Sonar') {
        if (isUnix()) {
 		  sh "'${mvnHome}/bin/mvn' sonar:sonar -Dsonar.projectKey=coe-hygieia -Dsonar.host.url=http://mep-hygieia-docker-2.eastus2.cloudapp.azure.com:9000  -Dsonar.login=e19a79d7b069f1ac31c98eee817aced69a97a342"
-		  //hygieiaSonarPublishStep ceQueryIntervalInSeconds: '10', ceQueryMaxAttempts: '30'
+		  hygieiaSonarPublishStep ceQueryIntervalInSeconds: '10', ceQueryMaxAttempts: '30'
 		  hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-.*-test.xml', pmdFilePattern: '**/*/PMD.xml'
        } else {
           bat(/"${mvnHome}\bin\mvn" sonar:sonar/)
