@@ -34,7 +34,7 @@ node {
 				hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: './target', artifactGroup: 'com.example', artifactName: '*.jar', artifactVersion: '', buildStatus: 'Success', environmentName: 'QA'
 				hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: './target', artifactGroup: 'com.example', artifactName: '*.jar', artifactVersion: '', buildStatus: 'Success', environmentName: 'PROD'    
 				sh "echo '**** ABOUT TO PUSH TO SONAR ******'"				
-				hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-.*-test.xml', pmdFilePattern: '**/*/PMD.xml'
+				hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-*.xml', pmdFilePattern: '**/*/PMD.xml'
     }
 
     stage('Integration Test') {
