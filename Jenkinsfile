@@ -28,13 +28,22 @@ node {
 	   
        archive 'target/*.jar'
 	            hygieiaBuildPublishStep buildStatus: 'Success'
-				hygieiaArtifactPublishStep artifactDirectory: './target', artifactGroup: 'test', artifactName: '*.jar', artifactVersion: ''
-                hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: './target', artifactGroup: 'test', artifactName: '*.jar', artifactVersion: '', buildStatus: 'Success', environmentName: 'Dev'
-				hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: './target', artifactGroup: 'com.example', artifactName: '*.jar', artifactVersion: '', buildStatus: 'Success', environmentName: 'DEV'   
-				hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: './target', artifactGroup: 'com.example', artifactName: '*.jar', artifactVersion: '', buildStatus: 'Success', environmentName: 'QA'
-				hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: './target', artifactGroup: 'com.example', artifactName: '*.jar', artifactVersion: '', buildStatus: 'Success', environmentName: 'PROD'    
-				sh "echo '**** ABOUT TO PUSH TO SONAR ******'"				
-				hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-*.xml', pmdFilePattern: '**/*/PMD.xml'
+				hygieiaTestPublishStep buildStatus: 'Success', testApplicationName: 'coe-devops1', testEnvironmentName: 'DEV', testFileNamePattern: 'TEST-*.xml', testResultsDirectory: '/target/surefire-reports/', testType: 'Unit'
+				hygieiaArtifactPublishStep artifactDirectory: './target', artifactGroup: 'org.springframework.boot', artifactName: '*.war', artifactVersion: ''
+				sh "echo '**** ABOUT TO PUSH TO SONAR ******'"
+				hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-.*-test.xml', pmdFilePattern: '**/*/PMD.xml'
+				hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: './target', artifactGroup: 'org.springframework.boot', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'DEV'
+				hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: './target', artifactGroup: 'org.springframework.boot', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'TEST'
+				hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: './target', artifactGroup: 'org.springframework.boot', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'PROD'
+				hygieiaSonarPublishStep ceQueryIntervalInSeconds: '10', ceQueryMaxAttempts: '30'
+				//hygieiaBuildPublishStep buildStatus: 'Success'
+				//hygieiaArtifactPublishStep artifactDirectory: './target', artifactGroup: 'test', artifactName: '*.jar', artifactVersion: ''
+                //hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: './target', artifactGroup: 'test', artifactName: '*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'Dev'
+				//hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: './target', artifactGroup: 'com.example', artifactName: '*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'DEV'   
+				//hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: './target', artifactGroup: 'com.example', artifactName: '*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'QA'
+				//hygieiaDeployPublishStep applicationName: 'develop-pipeline', artifactDirectory: './target', artifactGroup: 'com.example', artifactName: '*.war', artifactVersion: '', buildStatus: 'Success', environmentName: 'PROD'    
+				sh "echo '**** COMPLETEDPUSH TO SONAR ******'"				
+				//hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-*.xml', pmdFilePattern: '**/*/PMD.xml'
     }
 
     stage('Integration Test') {
