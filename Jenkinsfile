@@ -29,10 +29,10 @@ node {
 		archiveArtifacts 'target/*.war'
 		sh "echo '**** STARTING ARTIFACT AND DEPLOY PUBLISH ******'"	
 		sh "'${mvnHome}/bin/mvn' checkstyle:checkstyle"
-		hygieiaArtifactPublishStep artifactDirectory: './target', artifactGroup: 'com.example.devops', artifactName: '*.war', artifactVersion: ''
-		hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: './target', artifactGroup: 'com.example.devops', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'DEV'
-		hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: './target', artifactGroup: 'com.example.devops', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'TEST'
-		hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: './target', artifactGroup: 'com.example.devops', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'PROD'
+		hygieiaArtifactPublishStep artifactDirectory: 'target', artifactGroup: 'com.example.devops', artifactName: '*.war', artifactVersion: ''
+		hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: 'target', artifactGroup: 'com.example.devops', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'DEV'
+		hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: 'target', artifactGroup: 'com.example.devops', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'TEST'
+		hygieiaDeployPublishStep applicationName: 'coe-devops1', artifactDirectory: 'target', artifactGroup: 'com.example.devops', artifactName: '*.war', artifactVersion: '', buildStatus: 'InProgress', environmentName: 'PROD'
 		hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-.*-test.xml', pmdFilePattern: '**/*/PMD.xml'
 
 		sh "echo '**** COMPLETED ARTIFACT AND DEPLOY PUBLISH ******'"				
