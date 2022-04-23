@@ -26,7 +26,7 @@ node {
     stage('Unit Test') {
 		junit '**/target/surefire-reports/TEST-*.xml'
 	   
-		archiveArtifacts './target/*.war'
+		archiveArtifacts 'target/*.war'
 		sh "echo '**** STARTING ARTIFACT AND DEPLOY PUBLISH ******'"	
 		sh "'${mvnHome}/bin/mvn' checkstyle:checkstyle"
 		hygieiaArtifactPublishStep artifactDirectory: './target', artifactGroup: 'com.example.devops', artifactName: '*.war', artifactVersion: ''
