@@ -49,7 +49,7 @@ node {
 
     stage('Sonar') {
        if (isUnix()) {
-		  sh "'${mvnHome}/bin/mvn' sonar:sonar -Dsonar.projectKey=coe-hygieia -Dsonar.host.url=http://mep-hygieia-docker-2.eastus2.cloudapp.azure.com:9000  -Dsonar.login=e19a79d7b069f1ac31c98eee817aced69a97a342"
+		  sh "'${mvnHome}/bin/mvn' sonar:sonar -Dsonar.projectKey=coe-hygieia-2 -Dsonar.host.url=http://mep-hygieia-docker-2.eastus2.cloudapp.azure.com:9000  -Dsonar.login=e19a79d7b069f1ac31c98eee817aced69a97a342"
 	            hygieiaBuildPublishStep buildStatus: 'Success'
 				hygieiaTestPublishStep buildStatus: 'Success', testApplicationName: 'coe-devops1', testEnvironmentName: 'DEV', testFileNamePattern: 'TEST-*.xml', testResultsDirectory: '/target/surefire-reports/', testType: 'Unit'
 				sh "echo '**** ABOUT TO PUSH TO SONAR ******'"
